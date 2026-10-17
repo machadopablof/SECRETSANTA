@@ -1,0 +1,9 @@
+{
+  "name": "amigo-oculto",
+  "version": "1.0.0",
+  "description": "Sorteio de amigo oculto em que ninguém tira a si mesmo",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  }
+}

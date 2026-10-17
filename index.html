@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Amigo Oculto</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>🎁 Amigo Oculto</h1>
+
+      <section id="tela-cadastro">
+        <h2>Participantes</h2>
+        <form id="form-participante" autocomplete="off">
+          <input id="campo-nome" type="text" placeholder="Nome do participante" maxlength="60" required />
+          <button type="submit">Adicionar</button>
+        </form>
+        <p id="mensagem" class="mensagem" role="alert" hidden></p>
+        <ul id="lista-participantes" class="lista"></ul>
+        <p class="dica">Mínimo de 3 participantes. Ninguém pode tirar a si mesmo.</p>
+        <button id="botao-sortear" class="principal" disabled>Sortear</button>
+      </section>
+
+      <section id="tela-revelacao" hidden>
+        <h2>Sorteio realizado!</h2>
+        <p>Passe o aparelho para cada pessoa. Ela escolhe o próprio nome e vê quem tirou.</p>
+        <label for="selecao-pessoa">Quem é você?</label>
+        <select id="selecao-pessoa"></select>
+        <button id="botao-revelar" class="principal">Ver meu amigo oculto</button>
+
+        <div id="cartao" class="cartao" hidden>
+          <p><span id="cartao-quem"></span>, seu amigo oculto é:</p>
+          <p id="cartao-amigo" class="amigo"></p>
+          <button id="botao-esconder">Esconder e passar adiante</button>
+        </div>
+
+        <p id="progresso" class="dica"></p>
+        <button id="botao-novo" class="secundario">Novo sorteio</button>
+      </section>
+    </main>
+
+    <script src="sorteio.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
