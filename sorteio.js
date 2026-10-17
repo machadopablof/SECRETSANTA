@@ -161,8 +161,40 @@
     return pares;
   }
 
+  /**
+   * Gera o código que vai no link pessoal de cada participante.
+   * O resultado fica na parte "#" do link, que o navegador não envia ao servidor.
+   */
+  function criarCodigo(quem, amigo) {
+    const bytes = new TextEncoder().encode(JSON.stringify({ q: quem, a: amigo }));
+    let binario = "";
+    bytes.forEach(function (b) {
+      binario += String.fromCharCode(b);
+    });
+    return btoa(binario).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+
+  /** Lê um código de link pessoal. Retorna { quem, amigo } ou null se for inválido. */
+  function lerCodigo(codigo) {
+    try {
+      const base64 = String(codigo).replace(/-/g, "+").replace(/_/g, "/");
+      const binario = atob(base64);
+      const bytes = Uint8Array.from(binario, function (c) {
+        return c.charCodeAt(0);
+      });
+      const dados = JSON.parse(new TextDecoder().decode(bytes));
+      if (typeof dados.q !== "string" || typeof dados.a !== "string") return null;
+      if (mesmaPessoa(dados.q, dados.a)) return null;
+      return { quem: dados.q, amigo: dados.a };
+    } catch (e) {
+      return null;
+    }
+  }
+
   return {
     MINIMO_PARTICIPANTES: MINIMO_PARTICIPANTES,
+    criarCodigo: criarCodigo,
+    lerCodigo: lerCodigo,
     normalizarNome: normalizarNome,
     mesmaPessoa: mesmaPessoa,
     validarParticipantes: validarParticipantes,

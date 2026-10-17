@@ -22,8 +22,31 @@
         <button id="botao-sortear" class="principal" disabled>Sortear</button>
       </section>
 
+      <section id="tela-convite" hidden>
+        <h2>Olá, <span id="convite-quem"></span>!</h2>
+        <p>Seu amigo oculto já foi sorteado. Confira se ninguém está olhando a sua tela 👀</p>
+        <button id="botao-revelar-convite" class="principal">Revelar meu amigo oculto</button>
+        <div id="cartao-convite" class="cartao" hidden>
+          <p>Seu amigo oculto é:</p>
+          <p id="convite-amigo" class="amigo"></p>
+          <p class="dica">Guarde segredo! 🤫</p>
+        </div>
+      </section>
+
+      <section id="tela-convite-invalido" hidden>
+        <h2>Link inválido</h2>
+        <p>Este link de amigo oculto está incompleto ou foi alterado. Peça um novo link a quem organizou o sorteio.</p>
+      </section>
+
       <section id="tela-revelacao" hidden>
         <h2>Sorteio realizado!</h2>
+
+        <h3>Enviar para os amigos</h3>
+        <p>Cada pessoa tem um link próprio, que mostra só o amigo oculto dela. Mande cada link só para a pessoa certa.</p>
+        <ul id="lista-links" class="lista"></ul>
+        <p id="aviso-copiado" class="dica" role="status"></p>
+
+        <h3>Ou revelar neste aparelho</h3>
         <p>Passe o aparelho para cada pessoa. Ela escolhe o próprio nome e vê quem tirou.</p>
         <label for="selecao-pessoa">Quem é você?</label>
         <select id="selecao-pessoa"></select>

@@ -64,13 +64,81 @@
     $("progresso").textContent = estado.vistos.length + " de " + total + " já viram seu amigo oculto.";
   }
 
+  function linkPessoal(quem) {
+    const base = location.href.split("#")[0];
+    return base + "#c=" + Sorteio.criarCodigo(quem, estado.pares[quem]);
+  }
+
+  async function copiar(texto) {
+    try {
+      await navigator.clipboard.writeText(texto);
+      return true;
+    } catch (e) {
+      window.prompt("Copie o link:", texto);
+      return false;
+    }
+  }
+
+  function renderizarLinks() {
+    const lista = $("lista-links");
+    lista.replaceChildren();
+    Object.keys(estado.pares).forEach((quem) => {
+      const link = linkPessoal(quem);
+      const li = document.createElement("li");
+      const nome = document.createElement("span");
+      nome.textContent = quem;
+
+      const acoes = document.createElement("span");
+      acoes.className = "acoes";
+      const botaoCopiar = document.createElement("button");
+      botaoCopiar.textContent = "Copiar link";
+      botaoCopiar.addEventListener("click", async () => {
+        if (await copiar(link)) $("aviso-copiado").textContent = "Link de " + quem + " copiado!";
+      });
+      const whatsapp = document.createElement("a");
+      whatsapp.className = "botao";
+      whatsapp.textContent = "WhatsApp";
+      whatsapp.target = "_blank";
+      whatsapp.rel = "noopener";
+      whatsapp.href =
+        "https://wa.me/?text=" +
+        encodeURIComponent("🎁 " + quem + ", veja quem você tirou no amigo oculto: " + link);
+      acoes.append(botaoCopiar, whatsapp);
+
+      li.append(nome, acoes);
+      lista.append(li);
+    });
+  }
+
+  /** Quem abre um link pessoal vê só o próprio resultado, sem tocar no sorteio salvo. */
+  function abrirConvite(codigo) {
+    const dados = Sorteio.lerCodigo(codigo);
+    $("tela-cadastro").hidden = true;
+    $("tela-revelacao").hidden = true;
+    if (!dados) {
+      $("tela-convite-invalido").hidden = false;
+      return;
+    }
+    $("convite-quem").textContent = dados.quem;
+    $("convite-amigo").textContent = dados.amigo;
+    $("tela-convite").hidden = false;
+    $("botao-revelar-convite").addEventListener("click", () => {
+      $("cartao-convite").hidden = false;
+      $("botao-revelar-convite").hidden = true;
+    });
+  }
+
   function mostrarTela() {
     const sorteado = !!estado.pares;
     $("tela-cadastro").hidden = sorteado;
     $("tela-revelacao").hidden = !sorteado;
     $("cartao").hidden = true;
-    if (sorteado) renderizarRevelacao();
-    else renderizarCadastro();
+    if (sorteado) {
+      renderizarLinks();
+      renderizarRevelacao();
+    } else {
+      renderizarCadastro();
+    }
   }
 
   $("form-participante").addEventListener("submit", (ev) => {
@@ -132,5 +200,7 @@
     mostrarTela();
   });
 
-  mostrarTela();
+  const convite = location.hash.match(/^#c=(.+)$/);
+  if (convite) abrirConvite(convite[1]);
+  else mostrarTela();
 })();

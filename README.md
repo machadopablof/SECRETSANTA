@@ -2,13 +2,25 @@
 
 Sistema de sorteio de amigo oculto que roda direto no navegador, sem instalar nada.
 
+**Acesse:** https://machadopablof.github.io/SECRETSANTA/
+
 ## Como usar
 
-1. Abra o arquivo `index.html` no navegador.
+1. Abra o site (ou o arquivo `index.html` no navegador).
 2. Adicione os participantes (mínimo de 3).
 3. Clique em **Sortear**.
-4. Passe o aparelho para cada pessoa: ela escolhe o próprio nome, clica em
-   **Ver meu amigo oculto** e depois em **Esconder e passar adiante**.
+4. Envie a cada pessoa o **link pessoal** dela (botão **Copiar link** ou
+   **WhatsApp**). Quem abre o link vê só o próprio amigo oculto.
+   Também dá para revelar no mesmo aparelho, passando-o de mão em mão.
+
+O resultado vai dentro do próprio link (depois do `#`), então nada é salvo em
+servidor. Quem organiza não deve abrir os links dos outros para não estragar a
+surpresa.
+
+## Publicação
+
+O workflow `.github/workflows/pages.yml` roda os testes e publica o site no
+GitHub Pages a cada push.
 
 ## Garantia de que ninguém tira a si mesmo
 

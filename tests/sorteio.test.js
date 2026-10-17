@@ -53,3 +53,15 @@ test("verificarResultado detecta autossorteio e repetições", () => {
   assert.equal(r2.valido, false);
   assert.match(r2.problemas.join(), /mais de uma vez/);
 });
+
+test("link pessoal: código ida e volta, com acentos", () => {
+  const codigo = Sorteio.criarCodigo("João", "Márcia Ção");
+  assert.match(codigo, /^[A-Za-z0-9_-]+$/);
+  assert.deepEqual(Sorteio.lerCodigo(codigo), { quem: "João", amigo: "Márcia Ção" });
+});
+
+test("link pessoal: código inválido ou de autossorteio é recusado", () => {
+  assert.equal(Sorteio.lerCodigo("lixo!!"), null);
+  assert.equal(Sorteio.lerCodigo(""), null);
+  assert.equal(Sorteio.lerCodigo(Sorteio.criarCodigo("Ana", "ana")), null);
+});
